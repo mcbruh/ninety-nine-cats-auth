@@ -1,6 +1,7 @@
 class CatsController < ApplicationController
   
   before_action :require_current_user!, only: [:new, :create, :edit, :update]
+  before_action :rightful_owner, only: [:edit, :update]
 
   def index
     @cats = Cat.all
@@ -43,6 +44,11 @@ class CatsController < ApplicationController
   end
 
   private
+
+  def rightful_owner
+    @cat = Cat.find(params[:id])
+    redirect_to cats_url unless @cat.owner == current_user
+  end
 
   def cat_params
     params.require(:cat).permit(:age, :birth_date, :color, :description, :name, :sex)
