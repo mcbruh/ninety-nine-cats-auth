@@ -7,6 +7,7 @@ class User < ApplicationRecord
     validates :password_digest, presence: { message: 'Password can\'t be blank' }
     validates :password, length: { minimum: 6, allow_nil: true }
     after_initialize :ensure_session_token
+    has_many :cats, dependent: :destroy
 
     def self.generate_session_token
         SecureRandom::urlsafe_base64(16)
