@@ -21,4 +21,8 @@ class ApplicationController < ActionController::Base
         redirect_to new_session_url if current_user.nil?
     end
 
+    def already_logged_in
+        redirect_to cats_url if current_user
+    end
+
 end
