@@ -25,6 +25,14 @@
                 name="_method" />
               <input type="submit" value="Logout" />
             </form>
+      <% else %>
+            <form action="/session" method="POST">
+              <input 
+                type="hidden"
+                name="authenticity_token"
+                value="<%= form_authenticity_token %>">
+              <input type="submit" value="Log in">
+            </form>
           </li>  
         </ul>
       <% end %>
