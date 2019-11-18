@@ -1,11 +1,14 @@
 class CatRentalRequestsController < ApplicationController
+
+  before_action :rightful_owner, only: [:approve, :deny]
+
   def approve
     current_cat_rental_request.approve!
     redirect_to cat_url(current_cat)
   end
 
   def create
-    @rental_request = CatRentalRequest.new(cat_rental_request_params)
+    @rental_request = current_user.cat_rental_requests.new(cat_rental_request_params)
     if @rental_request.save
       redirect_to cat_url(@rental_request.cat)
     else
@@ -24,6 +27,10 @@ class CatRentalRequestsController < ApplicationController
   end
 
   private
+
+  def rightful_owner
+    redirect_to cats_url unless current_cat.owner == current_user
+  end
 
   def current_cat_rental_request
     @rental_request ||=

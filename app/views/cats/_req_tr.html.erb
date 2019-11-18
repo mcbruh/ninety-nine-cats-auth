@@ -1,8 +1,10 @@
 <tr>
   <td><%= req.start_date %></td>
   <td><%= req.end_date %></td>
+  <td><%= req.requester.username %></td>
   <td>
     <% if req.pending? %>
+      <% if req.cat.owner == current_user %>
         <form action="<%= approve_cat_rental_request_url(req) %>" method="post">
           <input
             type="hidden"
@@ -19,6 +21,7 @@
         </form>
     <% else %>
       <%= req.status %>
+      <% end %>
     <% end %>
   </td>
 </tr>
