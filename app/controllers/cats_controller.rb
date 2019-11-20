@@ -9,7 +9,8 @@ class CatsController < ApplicationController
   end
 
   def show
-    @cat = Cat.find(params[:id])
+    @cat = Cat.includes(:owner).find(params[:id])
+    @ordered_requests = @cat.rental_requests.includes(:requester).order('start_date')
     render :show
   end
 
