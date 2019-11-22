@@ -8,6 +8,8 @@ class UsersController < ApplicationController
 
         if @user.save
             login!(@user)
+            email = UserMailer.welcome_email(@user)
+            email.deliver
             redirect_to cats_url
         else
             render json: @user.errors.full_messages
